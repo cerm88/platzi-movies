@@ -12,9 +12,18 @@ const URL_TRENDING = (mediaType, timeWindow) => {
     return params.join('');
 };
 
+const URL_CATEORIES = [
+    'https://api.themoviedb.org/3//genre/movie/list',
+    '?',
+    `api_key=${API_KEY}`,
+].join('');
+
 const errorNode = document.querySelector('#error');
-const rendingPreviewMoviesContainer = document.querySelector(
+const trendingMoviesPreviewContainer = document.querySelector(
     '#trendingPreview .trendingPreview-movieList',
+);
+const categoriesMoviesPreviewContainer = document.querySelector(
+    '#categoriesPreview .categoriesPreview-list',
 );
 
 async function getTrendingMoviesPreview() {
@@ -32,7 +41,32 @@ async function getTrendingMoviesPreview() {
             movieImage.src = `${URL_IMG_BASE}${movie.poster_path}`;
             movieImage.alt = movie.title;
             movieContainer.appendChild(movieImage);
-            rendingPreviewMoviesContainer.appendChild(movieContainer);
+            trendingMoviesPreviewContainer.appendChild(movieContainer);
+        });
+    } catch (error) {
+        const msgError = `Error: ${error.message}`;
+        const nodeTextError = document.createTextNode(msgError);
+        errorNode.appendChild(nodeTextError);
+    }
+}
+
+async function getCategoriesMoviesPreview() {
+    try {
+        const response = await fetch(URL_CATEORIES);
+        const status = response.status;
+        if (status !== 200) throw new Error(`Error en la petición GET. Código HTTP: ${status}`);
+        const data = await response.json();
+        const categories = data.genres;
+        categories.forEach((category) => {
+            const categoryContainer = document.createElement('div');
+            const categoryTitle = document.createElement('h3');
+            categoryContainer.classList.add('category-container');
+            categoryTitle.classList.add('category-title');
+            categoryTitle.id = `id${category.id}`;
+            const nodeTextCategory = document.createTextNode(category.name);
+            categoryTitle.appendChild(nodeTextCategory);
+            categoryContainer.appendChild(categoryTitle);
+            categoriesMoviesPreviewContainer.appendChild(categoryContainer);
         });
     } catch (error) {
         const msgError = `Error: ${error.message}`;
@@ -42,3 +76,5 @@ async function getTrendingMoviesPreview() {
 }
 
 getTrendingMoviesPreview();
+
+getCategoriesMoviesPreview();
