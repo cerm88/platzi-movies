@@ -3,20 +3,20 @@ import env from './ENV/env.js';
 const API_KEY = env.API_KEY;
 const URL_IMG_BASE = 'https://image.tmdb.org/t/p/w300';
 
-const URL_TRENDING = (mediaType, timeWindow) => {
-    const params = [
-        `https://api.themoviedb.org/3/trending/${mediaType}/${timeWindow}`,
-        '?',
-        `api_key=${API_KEY}`,
-    ];
-    return params.join('');
-};
+const api = axios.create({
+    baseURL: 'https://api.themoviedb.org/3/',
+    headers: {
+        'Content-Type': 'application/json;charset=utf8',
+    },
+    // También la api key se puede enviar a traves de parametros si es que
+    // no es posible usarlo desde los headers
+    params: {
+        api_key: API_KEY,
+    },
+});
 
-const URL_CATEORIES = [
-    'https://api.themoviedb.org/3//genre/movie/list',
-    '?',
-    `api_key=${API_KEY}`,
-].join('');
+const URL_TRENDING_RES = (mediaType, timeWindow) => `trending/${mediaType}/${timeWindow}`;
+const URL_CATEORIES_RES = 'genre/movie/list';
 
 const errorNode = document.querySelector('#error');
 const trendingMoviesPreviewContainer = document.querySelector(
@@ -28,10 +28,8 @@ const categoriesMoviesPreviewContainer = document.querySelector(
 
 async function getTrendingMoviesPreview() {
     try {
-        const response = await fetch(URL_TRENDING('movie', 'day'));
-        const status = response.status;
+        const { status, data } = await api.get(URL_TRENDING_RES('movie', 'day'));
         if (status !== 200) throw new Error(`Error en la petición GET. Código HTTP: ${status}`);
-        const data = await response.json();
         const movies = data.results;
         movies.forEach((movie) => {
             const movieContainer = document.createElement('div');
@@ -52,10 +50,8 @@ async function getTrendingMoviesPreview() {
 
 async function getCategoriesMoviesPreview() {
     try {
-        const response = await fetch(URL_CATEORIES);
-        const status = response.status;
+        const { status, data } = await api.get(URL_CATEORIES_RES);
         if (status !== 200) throw new Error(`Error en la petición GET. Código HTTP: ${status}`);
-        const data = await response.json();
         const categories = data.genres;
         categories.forEach((category) => {
             const categoryContainer = document.createElement('div');

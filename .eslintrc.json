@@ -9,6 +9,9 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
+    "globals": {
+        "axios": "writable"
+    },
     "rules": {
         "comma-dangle": ["error", "always-multiline"],
         "import/extensions": [
