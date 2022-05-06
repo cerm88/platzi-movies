@@ -1,5 +1,6 @@
 import getData from '../utils/getData.js';
 import * as getNode from '../utils/getNode.js';
+import smoothscroll from '../utils/smoothscroll.js';
 
 const homePage = () => {
     getNode.headerSection.classList.remove('header-container--long');
@@ -83,7 +84,7 @@ const categoriesPage = () => {
     const [, slug] = window.location.hash.split('=');
     const [categoryId, categoryName] = slug.split('-');
 
-    const categoryNameCapit = `${categoryName.charAt(0).toUpperCase()}${categoryName.slice(1)}`;
+    const categoryNameCapit = decodeURI(categoryName).replace(/\b\w/g, (l) => l.toUpperCase());
 
     getNode.headerCategoryTitle.innerText = '';
     const categoryText = document.createTextNode(categoryNameCapit);
@@ -109,6 +110,12 @@ const navigator = () => {
     const searchIndexRenderPage = pages.findIndex((page) => hash.startsWith(page.hashstart));
     if (searchIndexRenderPage !== -1) rendering = pages[searchIndexRenderPage].render;
     rendering();
+    // Para el scroll top podemos usar:
+    // window.scrollTo(0, 0);
+    // O usar:
+    // document.body.scrollTo = 0;
+    // document.documentElement.scrollTo = 0;
+    smoothscroll();
 };
 
 export default navigator;
