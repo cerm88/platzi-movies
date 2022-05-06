@@ -79,6 +79,17 @@ const categoriesPage = () => {
     getNode.categoriesPreviewSection.classList.add('inactive');
     getNode.genericSection.classList.remove('inactive');
     getNode.movieDetailSection.classList.add('inactive');
+
+    const [, slug] = window.location.hash.split('=');
+    const [categoryId, categoryName] = slug.split('-');
+
+    const categoryNameCapit = `${categoryName.charAt(0).toUpperCase()}${categoryName.slice(1)}`;
+
+    getNode.headerCategoryTitle.innerText = '';
+    const categoryText = document.createTextNode(categoryNameCapit);
+    getNode.headerCategoryTitle.appendChild(categoryText);
+
+    getData.moviesByCategory(categoryId);
 };
 
 const error404 = () => {
@@ -89,7 +100,7 @@ const pages = [
     { name: 'trends', hashstart: '#trends', render: trendsPage },
     { name: 'search', hashstart: '#search=', render: searchPage },
     { name: 'movie', hashstart: '#movie=', render: movieDetailsPage },
-    { name: 'category', hashstart: '#category', render: categoriesPage },
+    { name: 'category', hashstart: '#category=', render: categoriesPage },
 ];
 
 const navigator = () => {

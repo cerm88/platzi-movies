@@ -1,4 +1,5 @@
 import env from '../ENV/env.js';
+import { genericSection, headerCategoryTitle } from './getNode.js';
 
 const API_KEY = env.API_KEY;
 const URL_IMG_BASE = 'https://image.tmdb.org/t/p/w300';
@@ -17,6 +18,7 @@ const api = axios.create({
 
 const URL_TRENDING_RES = (mediaType, timeWindow) => `trending/${mediaType}/${timeWindow}`;
 const URL_CATEORIES_RES = 'genre/movie/list';
+const URL_MOVIES_BY_CATEG_RES = 'discover/movie';
 
 const errorNode = document.querySelector('#error');
 const trendingMoviesPreviewContainer = document.querySelector(
@@ -25,6 +27,16 @@ const trendingMoviesPreviewContainer = document.querySelector(
 const categoriesMoviesPreviewContainer = document.querySelector(
     '#categoriesPreview .categoriesPreview-list',
 );
+function addImageContainer(nodeContainer, posterPath, title) {
+    const movieContainer = document.createElement('div');
+    const movieImage = document.createElement('img');
+    movieContainer.classList.add('movie-container');
+    movieImage.classList.add('movie-img');
+    movieImage.src = `${URL_IMG_BASE}${posterPath}`;
+    movieImage.alt = title;
+    movieContainer.appendChild(movieImage);
+    nodeContainer.appendChild(movieContainer);
+}
 
 const trendingMoviesPreview = async () => {
     try {
@@ -33,14 +45,7 @@ const trendingMoviesPreview = async () => {
         const movies = data.results;
         trendingMoviesPreviewContainer.innerHTML = '';
         movies.forEach((movie) => {
-            const movieContainer = document.createElement('div');
-            const movieImage = document.createElement('img');
-            movieContainer.classList.add('movie-container');
-            movieImage.classList.add('movie-img');
-            movieImage.src = `${URL_IMG_BASE}${movie.poster_path}`;
-            movieImage.alt = movie.title;
-            movieContainer.appendChild(movieImage);
-            trendingMoviesPreviewContainer.appendChild(movieContainer);
+            addImageContainer(trendingMoviesPreviewContainer, movie.poster_path, movie.title);
         });
     } catch (error) {
         const msgError = `Error: ${error.message}`;
@@ -59,6 +64,8 @@ const categoriesMoviesPreview = async () => {
             const categoryContainer = document.createElement('div');
             const categoryTitle = document.createElement('h3');
             categoryContainer.classList.add('category-container');
+            categoryContainer.setAttribute('data-categoryid', category.id);
+            categoryContainer.setAttribute('data-categoryname', category.name);
             categoryTitle.classList.add('category-title');
             categoryTitle.id = `id${category.id}`;
             const nodeTextCategory = document.createTextNode(category.name);
@@ -73,4 +80,20 @@ const categoriesMoviesPreview = async () => {
     }
 };
 
-export default { trendingMoviesPreview, categoriesMoviesPreview };
+const moviesByCategory = async (id) => {
+    // with_genres también lo podemos enviar como params desde axios en esta instancia
+    const { status, data } = await api.get(`${URL_MOVIES_BY_CATEG_RES}?with_genres=${id}`);
+    if (status !== 200) throw new Error(`Error en la petición GET. Código HTTP: ${status}`);
+
+    const movies = data.results;
+    genericSection.innerHTML = '';
+    movies.forEach((movie) => {
+        addImageContainer(genericSection, movie.poster_path, movie.title);
+    });
+};
+
+export default {
+    trendingMoviesPreview,
+    categoriesMoviesPreview,
+    moviesByCategory,
+};

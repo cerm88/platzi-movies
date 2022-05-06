@@ -28,3 +28,13 @@ getNode.trendingBtn.addEventListener('click', () => {
 getNode.arrowBtn.addEventListener('click', () => {
     window.location.hash = '';
 });
+
+getNode.categoriesPreviewList.addEventListener('click', (e) => {
+    const target = e.target;
+    if (target && target.nodeName === 'H3') {
+        const categoryContainerNode = target.parentNode;
+        const categoryID = categoryContainerNode.dataset.categoryid;
+        const categoryName = categoryContainerNode.dataset.categoryname.toLowerCase();
+        window.location.hash = `category=${categoryID}-${categoryName}`;
+    }
+});

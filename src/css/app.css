@@ -229,12 +229,17 @@ footer {
     width: 45%;
 }
 
+.category-container:hover {
+    background-color: var(--purple-light-2);
+    border-radius: 8px;
+}
+
 .category-title {
-    margin-bottom: 8px;
     cursor: pointer;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding: 8px;
 }
 
 .category-title::before {
