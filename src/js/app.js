@@ -5,6 +5,8 @@ window.addEventListener(
     'DOMContentLoaded',
     () => {
         navigator();
+        // Agregando un estado de carga inical
+        window.history.pushState({ loadUrl: window.location.href }, null, '');
     },
     false,
 );
@@ -17,8 +19,14 @@ window.addEventListener(
     false,
 );
 
-getNode.searchFormBtn.addEventListener('click', () => {
-    window.location.hash = '#search=';
+getNode.searchFormBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const textInput = getNode.searchFormInput.value;
+    if (textInput !== '') {
+        window.location.hash = `#search=${textInput}`;
+    } else {
+        console.log('No hay nada que buscar!');
+    }
 });
 
 getNode.trendingBtn.addEventListener('click', () => {
@@ -26,7 +34,12 @@ getNode.trendingBtn.addEventListener('click', () => {
 });
 
 getNode.arrowBtn.addEventListener('click', () => {
-    window.location.hash = '';
+    const stateLoad = window.history.state ? window.history.state.loadUrl : '';
+    if (stateLoad.includes('#')) {
+        window.location.hash = '';
+    } else {
+        window.history.back();
+    }
 });
 
 getNode.categoriesPreviewList.addEventListener('click', (e) => {

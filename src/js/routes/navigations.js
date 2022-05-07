@@ -16,6 +16,11 @@ const homePage = () => {
     getNode.genericSection.classList.add('inactive');
     getNode.movieDetailSection.classList.add('inactive');
 
+    getNode.searchFormInput.value = '';
+
+    getNode.trendingMoviesPreviewList.innerHTML = '';
+    getNode.categoriesPreviewList.innerHTML = '';
+
     getData.trendingMoviesPreview();
     getData.categoriesMoviesPreview();
 };
@@ -35,6 +40,10 @@ const trendsPage = () => {
     getNode.movieDetailSection.classList.add('inactive');
 
     getNode.headerCategoryTitle.innerHTML = 'Tendencias';
+
+    getNode.genericSection.innerHTML = '';
+
+    getData.trendingMovies();
 };
 
 const searchPage = () => {
@@ -50,6 +59,13 @@ const searchPage = () => {
     getNode.categoriesPreviewSection.classList.add('inactive');
     getNode.genericSection.classList.remove('inactive');
     getNode.movieDetailSection.classList.add('inactive');
+
+    const [, slug] = window.location.hash.split('=');
+    const searchText = decodeURI(slug);
+
+    getNode.genericSection.innerHTML = '';
+
+    getData.searchMoviesByText(searchText);
 };
 
 const movieDetailsPage = () => {
@@ -90,6 +106,8 @@ const categoriesPage = () => {
     const categoryText = document.createTextNode(categoryNameCapit);
     getNode.headerCategoryTitle.appendChild(categoryText);
 
+    getNode.genericSection.innerHTML = '';
+
     getData.moviesByCategory(categoryId);
 };
 
@@ -106,6 +124,7 @@ const pages = [
 
 const navigator = () => {
     const hash = window.location.hash;
+
     let rendering = hash === '' ? homePage : error404;
     const searchIndexRenderPage = pages.findIndex((page) => hash.startsWith(page.hashstart));
     if (searchIndexRenderPage !== -1) rendering = pages[searchIndexRenderPage].render;
