@@ -39,7 +39,7 @@ const trendsPage = () => {
     getNode.genericSection.classList.remove('inactive');
     getNode.movieDetailSection.classList.add('inactive');
 
-    getNode.headerCategoryTitle.innerHTML = 'Tendencias';
+    getNode.headerCategoryTitle.textContent = 'Tendencias';
 
     getNode.genericSection.innerHTML = '';
 
@@ -81,6 +81,18 @@ const movieDetailsPage = () => {
     getNode.categoriesPreviewSection.classList.add('inactive');
     getNode.genericSection.classList.add('inactive');
     getNode.movieDetailSection.classList.remove('inactive');
+
+    const [, slug] = window.location.hash.split('=');
+    const [movieId] = slug.split('-');
+
+    getNode.headerSection.style.background = 'url("")';
+
+    getNode.movieDetailTitle.innerText = '';
+    getNode.movieDetailDescription.innerText = '';
+    getNode.movieDetailScore.innerText = '';
+    getNode.movieDetailCategoriesList.innerText = '';
+
+    getData.movieById(movieId);
 };
 
 const categoriesPage = () => {

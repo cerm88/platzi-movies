@@ -42,12 +42,28 @@ getNode.arrowBtn.addEventListener('click', () => {
     }
 });
 
-getNode.categoriesPreviewList.addEventListener('click', (e) => {
-    const target = e.target;
-    if (target && target.nodeName === 'H3') {
-        const categoryContainerNode = target.parentNode;
-        const categoryID = categoryContainerNode.dataset.categoryid;
-        const categoryName = categoryContainerNode.dataset.categoryname.toLowerCase();
-        window.location.hash = `category=${categoryID}-${categoryName}`;
-    }
+const categoriesNode = [getNode.categoriesPreviewList, getNode.movieDetailCategoriesList];
+
+categoriesNode.forEach((node) => {
+    node.addEventListener('click', (e) => {
+        const target = e.target;
+        if (target && target.nodeName === 'H3') {
+            const categoryID = target.dataset.categoryid;
+            const categoryName = target.dataset.categoryname.toLowerCase();
+            window.location.hash = `#category=${categoryID}-${categoryName}`;
+        }
+    });
+});
+
+const moviesNode = [getNode.trendingMoviesPreviewList, getNode.genericSection];
+
+moviesNode.forEach((node) => {
+    node.addEventListener('click', (e) => {
+        const target = e.target;
+        if (target && target.nodeName === 'IMG') {
+            const movieId = target.dataset.movieid;
+            const movieName = target.dataset.moviename.toLowerCase();
+            window.location.hash = `#movie=${movieId}-${movieName}`;
+        }
+    });
 });

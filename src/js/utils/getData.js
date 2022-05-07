@@ -4,6 +4,11 @@ import {
     trendingMoviesPreviewList,
     categoriesPreviewList,
     genericSection,
+    movieDetailTitle,
+    movieDetailDescription,
+    movieDetailScore,
+    movieDetailCategoriesList,
+    headerSection,
 } from './getNode.js';
 
 const API_KEY = env.API_KEY;
@@ -25,16 +30,39 @@ const URL_TRENDING_RES = (mediaType, timeWindow) => `trending/${mediaType}/${tim
 const URL_CATEORIES_RES = 'genre/movie/list';
 const URL_MOVIES_BY_CATEG_RES = 'discover/movie';
 const URL_MOVIES_SEARCH_RES = 'search/movie';
+const URL_MOVIES_DETAILS_RES = (movieId) => `movie/${movieId}`;
 
-function addImageContainer(nodeContainer, posterPath, title) {
+function requestError(error) {
+    const msgError = `Error: ${error.message}`;
+    const nodeTextError = document.createTextNode(msgError);
+    errorNode.appendChild(nodeTextError);
+}
+
+function addImageContainer({ nodeContainer, id, posterPath, title }) {
     const movieContainer = document.createElement('div');
     const movieImage = document.createElement('img');
     movieContainer.classList.add('movie-container');
     movieImage.classList.add('movie-img');
     if (posterPath !== null) movieImage.src = `${URL_IMG_BASE}${posterPath}`;
     movieImage.alt = title;
+    movieImage.setAttribute('data-movieid', id);
+    movieImage.setAttribute('data-moviename', title);
     movieContainer.appendChild(movieImage);
     nodeContainer.appendChild(movieContainer);
+}
+
+function addCategoriesContainer({ nodeContainer, id, title }) {
+    const categoryContainer = document.createElement('div');
+    const categoryTitle = document.createElement('h3');
+    categoryContainer.classList.add('category-container');
+    categoryTitle.setAttribute('data-categoryid', id);
+    categoryTitle.setAttribute('data-categoryname', title);
+    categoryTitle.classList.add('category-title');
+    categoryTitle.id = `id${id}`;
+    const nodeTextCategory = document.createTextNode(title);
+    categoryTitle.appendChild(nodeTextCategory);
+    categoryContainer.appendChild(categoryTitle);
+    nodeContainer.appendChild(categoryContainer);
 }
 
 const trendingMoviesPreview = async () => {
@@ -43,12 +71,15 @@ const trendingMoviesPreview = async () => {
         if (status !== 200) throw new Error(`Error en la petición GET. Código HTTP: ${status}`);
         const movies = data.results;
         movies.forEach((movie) => {
-            addImageContainer(trendingMoviesPreviewList, movie.poster_path, movie.title);
+            addImageContainer({
+                nodeContainer: trendingMoviesPreviewList,
+                id: movie.id,
+                posterPath: movie.poster_path,
+                title: movie.title,
+            });
         });
     } catch (error) {
-        const msgError = `Error: ${error.message}`;
-        const nodeTextError = document.createTextNode(msgError);
-        errorNode.appendChild(nodeTextError);
+        requestError(error);
     }
 };
 
@@ -58,22 +89,14 @@ const categoriesMoviesPreview = async () => {
         if (status !== 200) throw new Error(`Error en la petición GET. Código HTTP: ${status}`);
         const categories = data.genres;
         categories.forEach((category) => {
-            const categoryContainer = document.createElement('div');
-            const categoryTitle = document.createElement('h3');
-            categoryContainer.classList.add('category-container');
-            categoryContainer.setAttribute('data-categoryid', category.id);
-            categoryContainer.setAttribute('data-categoryname', category.name);
-            categoryTitle.classList.add('category-title');
-            categoryTitle.id = `id${category.id}`;
-            const nodeTextCategory = document.createTextNode(category.name);
-            categoryTitle.appendChild(nodeTextCategory);
-            categoryContainer.appendChild(categoryTitle);
-            categoriesPreviewList.appendChild(categoryContainer);
+            addCategoriesContainer({
+                nodeContainer: categoriesPreviewList,
+                id: category.id,
+                title: category.name,
+            });
         });
     } catch (error) {
-        const msgError = `Error: ${error.message}`;
-        const nodeTextError = document.createTextNode(msgError);
-        errorNode.appendChild(nodeTextError);
+        requestError(error);
     }
 };
 
@@ -84,12 +107,15 @@ const moviesByCategory = async (id) => {
         if (status !== 200) throw new Error(`Error en la petición GET. Código HTTP: ${status}`);
         const movies = data.results;
         movies.forEach((movie) => {
-            addImageContainer(genericSection, movie.poster_path, movie.title);
+            addImageContainer({
+                nodeContainer: genericSection,
+                id: movie.id,
+                posterPath: movie.poster_path,
+                title: movie.title,
+            });
         });
     } catch (error) {
-        const msgError = `Error: ${error.message}`;
-        const nodeTextError = document.createTextNode(msgError);
-        errorNode.appendChild(nodeTextError);
+        requestError(error);
     }
 };
 
@@ -104,12 +130,15 @@ const searchMoviesByText = async (query) => {
         if (status !== 200) throw new Error(`Error en la petición GET. Código HTTP: ${status}`);
         const movies = data.results;
         movies.forEach((movie) => {
-            addImageContainer(genericSection, movie.poster_path, movie.title);
+            addImageContainer({
+                nodeContainer: genericSection,
+                id: movie.id,
+                posterPath: movie.poster_path,
+                title: movie.title,
+            });
         });
     } catch (error) {
-        const msgError = `Error: ${error.message}`;
-        const nodeTextError = document.createTextNode(msgError);
-        errorNode.appendChild(nodeTextError);
+        requestError(error);
     }
 };
 
@@ -119,12 +148,47 @@ const trendingMovies = async () => {
         if (status !== 200) throw new Error(`Error en la petición GET. Código HTTP: ${status}`);
         const movies = data.results;
         movies.forEach((movie) => {
-            addImageContainer(genericSection, movie.poster_path, movie.title);
+            addImageContainer({
+                nodeContainer: genericSection,
+                id: movie.id,
+                posterPath: movie.poster_path,
+                title: movie.title,
+            });
         });
     } catch (error) {
-        const msgError = `Error: ${error.message}`;
-        const nodeTextError = document.createTextNode(msgError);
-        errorNode.appendChild(nodeTextError);
+        requestError(error);
+    }
+};
+
+const movieById = async (id) => {
+    try {
+        const { status, data: movie } = await api.get(URL_MOVIES_DETAILS_RES(id));
+        if (status !== 200) throw new Error(`Error en la petición GET. Código HTTP: ${status}`);
+
+        const movieImgUrl = `${URL_IMG_BASE}${movie.poster_path}`;
+        headerSection.style.background = `
+            linear-gradient(
+                180deg,
+                rgba(0, 0, 0, 0.35) 19.27%,
+                rgba(0, 0, 0, 0) 29.17%
+            ),
+            url(${movieImgUrl})
+        `;
+
+        movieDetailTitle.appendChild(document.createTextNode(movie.original_title));
+        movieDetailDescription.appendChild(document.createTextNode(movie.overview));
+        movieDetailScore.appendChild(document.createTextNode(movie.vote_average));
+
+        const categories = movie.genres;
+        categories.forEach((category) => {
+            addCategoriesContainer({
+                nodeContainer: movieDetailCategoriesList,
+                id: category.id,
+                title: category.name,
+            });
+        });
+    } catch (error) {
+        requestError(error);
     }
 };
 
@@ -134,4 +198,5 @@ export default {
     moviesByCategory,
     searchMoviesByText,
     trendingMovies,
+    movieById,
 };
