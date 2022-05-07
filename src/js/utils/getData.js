@@ -174,6 +174,9 @@ const movieById = async (id) => {
             ),
             url(${movieImgUrl})
         `;
+        headerSection.style.backgroundPosition = 'center';
+        headerSection.style.backgroundRepeat = 'no-repeat';
+        headerSection.style.backgroundSize = 'cover';
 
         movieDetailTitle.appendChild(document.createTextNode(movie.original_title));
         movieDetailDescription.appendChild(document.createTextNode(movie.overview));

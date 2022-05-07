@@ -92,6 +92,11 @@ button {
     cursor: pointer;
 }
 
+img {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 
 /* Shared */
 .header-container,
@@ -132,16 +137,6 @@ footer {
 /* Header */
 .header-container {
     padding-top: 40px;
-}
-
-.header-container--long {
-    background-image: url('');
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 19.27%, rgba(0, 0, 0, 0) 29.17%), url();
-    background-size: cover !important;
-    height: 480px;
-    position: fixed;
-    top: 0;
-    width: 100%;
 }
 
 .header-container--categoryView {
@@ -186,6 +181,12 @@ footer {
     border-bottom-right-radius: 8px;
 }
 
+.header-container--long {
+    height: 480px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
 
 /* Trending */
 .trendingPreview-header {
