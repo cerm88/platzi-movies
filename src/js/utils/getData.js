@@ -9,6 +9,7 @@ import {
     movieDetailScore,
     movieDetailCategoriesList,
     headerSection,
+    relatedMoviesContainer,
 } from './getNode.js';
 
 const API_KEY = env.API_KEY;
@@ -30,7 +31,8 @@ const URL_TRENDING_RES = (mediaType, timeWindow) => `trending/${mediaType}/${tim
 const URL_CATEORIES_RES = 'genre/movie/list';
 const URL_MOVIES_BY_CATEG_RES = 'discover/movie';
 const URL_MOVIES_SEARCH_RES = 'search/movie';
-const URL_MOVIES_DETAILS_RES = (movieId) => `movie/${movieId}`;
+const URL_MOVIE_DETAILS_RES = (movieId) => `movie/${movieId}`;
+const URL_MOVIES_RECOMM_RES = (movieId) => `movie/${movieId}/recommendations`;
 
 function requestError(error) {
     const msgError = `Error: ${error.message}`;
@@ -162,9 +164,9 @@ const trendingMovies = async () => {
 
 const movieById = async (id) => {
     try {
-        const { status, data: movie } = await api.get(URL_MOVIES_DETAILS_RES(id));
+        const { status, data: movie } = await api.get(URL_MOVIE_DETAILS_RES(id));
         if (status !== 200) throw new Error(`Error en la petición GET. Código HTTP: ${status}`);
-
+        // Agregando imagen desde css
         const movieImgUrl = `${URL_IMG_BASE}${movie.poster_path}`;
         headerSection.style.background = `
             linear-gradient(
@@ -177,17 +179,35 @@ const movieById = async (id) => {
         headerSection.style.backgroundPosition = 'center';
         headerSection.style.backgroundRepeat = 'no-repeat';
         headerSection.style.backgroundSize = 'cover';
-
+        // Detalles de la película
         movieDetailTitle.appendChild(document.createTextNode(movie.original_title));
         movieDetailDescription.appendChild(document.createTextNode(movie.overview));
         movieDetailScore.appendChild(document.createTextNode(movie.vote_average));
-
+        // Categorías relacionada a la película
         const categories = movie.genres;
         categories.forEach((category) => {
             addCategoriesContainer({
                 nodeContainer: movieDetailCategoriesList,
                 id: category.id,
                 title: category.name,
+            });
+        });
+    } catch (error) {
+        requestError(error);
+    }
+};
+
+const relatedMoviesById = async (id) => {
+    try {
+        const { status, data } = await api.get(URL_MOVIES_RECOMM_RES(id));
+        if (status !== 200) throw new Error(`Error en la petición GET. Código HTTP: ${status}`);
+        const movies = data.results;
+        movies.forEach((movie) => {
+            addImageContainer({
+                nodeContainer: relatedMoviesContainer,
+                id: movie.id,
+                posterPath: movie.poster_path,
+                title: movie.title,
             });
         });
     } catch (error) {
@@ -202,4 +222,5 @@ export default {
     searchMoviesByText,
     trendingMovies,
     movieById,
+    relatedMoviesById,
 };

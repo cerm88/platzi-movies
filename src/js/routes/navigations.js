@@ -93,6 +93,10 @@ const movieDetailsPage = () => {
     getNode.movieDetailCategoriesList.innerText = '';
 
     getData.movieById(movieId);
+
+    getNode.relatedMoviesContainer.innerHTML = '';
+
+    getData.relatedMoviesById(movieId);
 };
 
 const categoriesPage = () => {

@@ -338,6 +338,7 @@ footer {
     justify-content: space-between;
     flex-wrap: wrap;
     padding: 32px 24px;
+    min-height: calc(100vh - 152px - 96px);
 }
 
 .genericList-container .movie-container {
@@ -352,6 +353,7 @@ footer {
 
 /* Movie Detail */
 .movieDetail-container {
+    width: 100%;
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
     padding: 32px 24px;

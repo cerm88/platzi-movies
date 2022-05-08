@@ -55,7 +55,11 @@ categoriesNode.forEach((node) => {
     });
 });
 
-const moviesNode = [getNode.trendingMoviesPreviewList, getNode.genericSection];
+const moviesNode = [
+    getNode.trendingMoviesPreviewList,
+    getNode.genericSection,
+    getNode.relatedMoviesContainer,
+];
 
 moviesNode.forEach((node) => {
     node.addEventListener('click', (e) => {
