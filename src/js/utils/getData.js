@@ -125,9 +125,7 @@ const searchMoviesByText = async (query) => {
     try {
         // Aqui hemos pasado a query como parámetro en axios
         const { status, data } = await api.get(URL_MOVIES_SEARCH_RES, {
-            params: {
-                query,
-            },
+            params: { query },
         });
         if (status !== 200) throw new Error(`Error en la petición GET. Código HTTP: ${status}`);
         const movies = data.results;

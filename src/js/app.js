@@ -22,11 +22,7 @@ window.addEventListener(
 getNode.searchFormBtn.addEventListener('click', (e) => {
     e.preventDefault();
     const textInput = getNode.searchFormInput.value;
-    if (textInput !== '') {
-        window.location.hash = `#search=${textInput}`;
-    } else {
-        console.log('No hay nada que buscar!');
-    }
+    if (textInput !== '') window.location.hash = `#search=${textInput}`;
 });
 
 getNode.trendingBtn.addEventListener('click', () => {
@@ -34,12 +30,14 @@ getNode.trendingBtn.addEventListener('click', () => {
 });
 
 getNode.arrowBtn.addEventListener('click', () => {
-    const stateLoad = window.history.state ? window.history.state.loadUrl : '';
-    if (stateLoad.includes('#')) {
+    const stateLoad = window.history.state ? window.history.state.loadUrl : window.location.origin;
+    const stateLoadURL = new URL(stateLoad);
+    if (stateLoadURL.hash.includes('#')) {
         window.location.hash = '';
     } else {
         window.history.back();
     }
+    getNode.errorNode.innerHTML = '';
 });
 
 const categoriesNode = [getNode.categoriesPreviewList, getNode.movieDetailCategoriesList];
