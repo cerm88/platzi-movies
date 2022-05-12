@@ -139,7 +139,7 @@ const pages = [
 ];
 
 const navigator = () => {
-    const hash = window.location.hash;
+    const { hash } = window.location;
 
     let rendering = hash === '' ? homePage : error404;
     const searchIndexRenderPage = pages.findIndex((page) => hash.startsWith(page.hashstart));

@@ -46,7 +46,7 @@ const categoriesNode = [getNode.categoriesPreviewList, getNode.movieDetailCatego
 
 categoriesNode.forEach((node) => {
     node.addEventListener('click', (e) => {
-        const target = e.target;
+        const { target } = e;
         if (target && target.nodeName === 'H3') {
             const categoryID = target.dataset.categoryid;
             const categoryName = target.dataset.categoryname.toLowerCase();
@@ -63,7 +63,8 @@ const moviesNode = [
 
 moviesNode.forEach((node) => {
     node.addEventListener('click', (e) => {
-        const target = e.target;
+        // const target = e.target;
+        const { target } = e;
         if (target && target.nodeName === 'IMG') {
             const movieId = target.dataset.movieid;
             const movieName = target.dataset.moviename.toLowerCase();

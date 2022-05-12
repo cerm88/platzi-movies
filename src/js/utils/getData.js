@@ -12,7 +12,7 @@ import {
     relatedMoviesContainer,
 } from './getNode.js';
 
-const API_KEY = env.API_KEY;
+const { API_KEY } = env;
 const URL_IMG_BASE = 'https://image.tmdb.org/t/p/w300';
 
 const api = axios.create({
