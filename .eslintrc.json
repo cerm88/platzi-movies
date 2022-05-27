@@ -6,11 +6,11 @@
     },
     "extends": ["airbnb-base", "prettier"],
     "parserOptions": {
-        "ecmaVersion": "latest",
+        "ecmaVersion": 12,
         "sourceType": "module"
     },
     "globals": {
-        "axios": "writable"
+        "axios": "readonly"
     },
     "rules": {
         "import/extensions": [
@@ -24,11 +24,7 @@
         "max-len": [
             "warn",
             {
-                "code": 100,
-                "ignoreStrings": true,
-                "ignoreTemplateLiterals": true,
-                "ignoreRegExpLiterals": true,
-                "ignoreUrls": true
+                "code": 100
             }
         ],
         "no-console": "warn",
@@ -45,6 +41,6 @@
                 "allowForLoopAfterthoughts": true
             }
         ],
-        "no-underscore-dangle": ["off"]
+        "no-restricted-syntax": ["error", "ForInStatement", "WithStatement"]
     }
 }
