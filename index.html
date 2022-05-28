@@ -24,13 +24,13 @@
         <h1 class="header-title">PlatziMovies</h1>
         <h1 class="header-title header-title--categoryView inactive"></h1>
 
-        <form id="searchForm" class="header-searchForm">
+        <form id="searchForm" class="header-searchForm inactive">
             <input type="text" placeholder="Vengadores" />
             <button id="searchBtn">🔍</button>
         </form>
     </header>
 
-    <section id="trendingPreview" class="trendingPreview-container">
+    <section id="trendingPreview" class="trendingPreview-container inactive">
         <div class="trendingPreview-header">
             <h2 class="trendingPreview-title">Tendencias</h2>
             <button class="trendingPreview-btn">Ver más</button>
@@ -51,7 +51,7 @@
         </article>
     </section>
 
-    <section id="categoriesPreview" class="categoriesPreview-container">
+    <section id="categoriesPreview" class="categoriesPreview-container inactive">
         <h2 class="categoriesPreview-title">Categorías</h2>
 
         <article class="categoriesPreview-list">
@@ -81,8 +81,10 @@
     </section>
 
     <section id="movieDetail" class="movieDetail-container inactive">
-        <h1 class="movieDetail-title"></h1>
-        <span class="movieDetail-score"></span>
+        <div class="movieDetail-header">
+            <h1 class="movieDetail-title"></h1>
+            <span class="movieDetail-score"></span>
+        </div>
         <p class="movieDetail-description"></p>
 
         <article class="categories-list">

@@ -246,7 +246,6 @@ footer {
 .category-title::before {
     content: '••••';
     color: transparent;
-    /* TODO: cambiar color por ID de la categoría */
     background-color: var(--idColor);
     border-radius: 8px;
     margin-right: 8px;
@@ -347,6 +346,7 @@ footer {
 }
 
 .genericList-container .movie-img {
+    height: 273.59px;
     width: 100%;
 }
 
@@ -363,15 +363,22 @@ footer {
     background-color: var(--purple-light-1);
 }
 
+.movieDetail-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
 .movieDetail-title {
-    display: inline-block;
+    /* display: inline-block; */
     width: 80%;
-    margin: 0 0 16px 0;
-    padding: 0;
+    /* margin: 0 0 16px 0; */
+    /* padding: 0; */
 }
 
 .movieDetail-score {
-    display: inline-block;
+    /* display: inline-block; */
     text-align: right;
     width: 18%;
     font-weight: var(--font-weight-title2);
@@ -435,4 +442,44 @@ footer {
 /* Navigation */
 .inactive {
     display: none;
+}
+
+
+/* Loading Screens */
+
+.loading-skeleton {
+    animation: loading-skeleton 1s linear infinite alternate;
+}
+
+@keyframes loading-skeleton {
+    0% {
+        background-color: hsl(200, 20%, 70%);
+    }
+    100% {
+        background-color: hsl(200, 20%, 95%);
+    }
+}
+
+.skeleton-text, .skeleton-desc  {
+    width: 100%;
+    height: 16px;
+    margin: 8px;
+    border-radius: 4px;
+}
+
+.skeleton-desc:last-child {
+    width: 80%;
+}
+
+.fade-in {
+    animation: fade-in 2s;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
