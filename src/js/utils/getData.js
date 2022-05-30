@@ -215,6 +215,15 @@ const moviesByCategory = async (id, nextCollection = false, page = 1) => {
             btnLoadMoreMoviesByCategory.remove();
             moviesByCategory(id, true, dinPage);
         });
+
+        // Creando el Infinite Scrolling
+        window.addEventListener('scroll', () => {
+            const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+            const scrollDiff = scrollHeight - (scrollTop + clientHeight);
+            if (scrollDiff <= 30) {
+                moviesByCategory(id, true, dinPage);
+            }
+        });
     } catch (error) {
         requestError(error);
     }
@@ -251,6 +260,15 @@ const searchMoviesByText = async (query, nextCollection = false, page = 1) => {
             btnLoadMoreSearchMoviesByText.remove();
             searchMoviesByText(query, true, dinPage);
         });
+
+        // Creando el Infinite Scrolling
+        window.addEventListener('scroll', () => {
+            const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+            const scrollDiff = scrollHeight - (scrollTop + clientHeight);
+            if (scrollDiff <= 30) {
+                searchMoviesByText(query, true, dinPage);
+            }
+        });
     } catch (error) {
         requestError(error);
     }
@@ -286,10 +304,25 @@ const trendingMovies = async (nextCollection = false, page = 1) => {
             btnLoadMoreTrendingMovies.remove();
             trendingMovies(true, dinPage);
         });
+
+        // Creando el Infinite Scrolling
+        window.addEventListener('scroll', () => {
+            const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+            const scrollDiff = scrollHeight - (scrollTop + clientHeight);
+            if (scrollDiff <= 30) {
+                trendingMovies(true, dinPage);
+            }
+        });
     } catch (error) {
         requestError(error);
     }
 };
+
+// scrollTop    = cuando scroll hacemos hasta el top de la pantalla
+// clientHeight = tamaño e nuestro viewport en vertical
+// scrollHeight = cuanto scroll podemos hacer en todo el document vertical
+// scrollDiff = (scrollHeight) - (scrollTop + clientHeight)
+// scrollDiff <= 48
 
 const movieById = async (id) => {
     try {
