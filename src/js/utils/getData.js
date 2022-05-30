@@ -47,11 +47,14 @@ function addImageContainer({ nodeContainer, id, posterPath, title }) {
     const movieImage = document.createElement('img');
     movieContainer.classList.add('movie-container');
     movieImage.classList.add('movie-img');
+    const src = posterPath
+        ? `${URL_IMG_BASE}${posterPath}`
+        : `https://via.placeholder.com/300x450/5c218a/ffffff?text=${title}`;
     if (intersectionObserverIsSupported) {
-        movieImage.setAttribute('data-src', `${URL_IMG_BASE}${posterPath}`);
+        movieImage.setAttribute('data-src', src);
         movieImage.setAttribute('data-alt', title);
     } else {
-        if (posterPath !== null) movieImage.src = `${URL_IMG_BASE}${posterPath}`;
+        movieImage.src = src;
         movieImage.alt = title;
     }
     movieImage.setAttribute('data-movieid', id);
