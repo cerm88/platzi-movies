@@ -11,9 +11,11 @@ import {
     headerSection,
     relatedMoviesContainer,
 } from './getNode.js';
+import registerImage from './lazyLoading.js';
 
 const { API_KEY } = env;
 const URL_IMG_BASE = 'https://image.tmdb.org/t/p/w300';
+const intersectionObserverIsSupported = 'IntersectionObserver' in window;
 
 const api = axios.create({
     baseURL: 'https://api.themoviedb.org/3/',
@@ -45,13 +47,18 @@ function addImageContainer({ nodeContainer, id, posterPath, title }) {
     const movieImage = document.createElement('img');
     movieContainer.classList.add('movie-container');
     movieImage.classList.add('movie-img');
-    movieImage.classList.add('fade-in');
-    if (posterPath !== null) movieImage.src = `${URL_IMG_BASE}${posterPath}`;
-    movieImage.alt = title;
+    if (intersectionObserverIsSupported) {
+        movieImage.setAttribute('data-src', `${URL_IMG_BASE}${posterPath}`);
+        movieImage.setAttribute('data-alt', title);
+    } else {
+        if (posterPath !== null) movieImage.src = `${URL_IMG_BASE}${posterPath}`;
+        movieImage.alt = title;
+    }
     movieImage.setAttribute('data-movieid', id);
     movieImage.setAttribute('data-moviename', title);
     movieContainer.appendChild(movieImage);
     nodeContainer.appendChild(movieContainer);
+    return movieContainer;
 }
 
 function addCategoriesContainer({ nodeContainer, id, title }) {
@@ -124,12 +131,14 @@ const trendingMoviesPreview = async () => {
         if (status !== 200) throw new Error(`Error en la petición GET. Código HTTP: ${status}`);
         const movies = data.results;
         movies.forEach((movie) => {
-            addImageContainer({
+            const container = addImageContainer({
                 nodeContainer: trendingMoviesPreviewList,
                 id: movie.id,
                 posterPath: movie.poster_path,
                 title: movie.title,
             });
+            // Agregando imagen al observador
+            if (intersectionObserverIsSupported) registerImage(container);
         });
         // Removiendo loading screen
         const trendingMoviesPreviewListUpdate = document.querySelector(
@@ -174,12 +183,14 @@ const moviesByCategory = async (id) => {
         if (status !== 200) throw new Error(`Error en la petición GET. Código HTTP: ${status}`);
         const movies = data.results;
         movies.forEach((movie) => {
-            addImageContainer({
+            const container = addImageContainer({
                 nodeContainer: genericSection,
                 id: movie.id,
                 posterPath: movie.poster_path,
                 title: movie.title,
             });
+            // Agregando imagen al observador
+            if (intersectionObserverIsSupported) registerImage(container);
         });
         // Removiendo loading screen
         const genericSectionUpdate = document.querySelector('#genericList');
@@ -201,12 +212,14 @@ const searchMoviesByText = async (query) => {
         if (status !== 200) throw new Error(`Error en la petición GET. Código HTTP: ${status}`);
         const movies = data.results;
         movies.forEach((movie) => {
-            addImageContainer({
+            const container = addImageContainer({
                 nodeContainer: genericSection,
                 id: movie.id,
                 posterPath: movie.poster_path,
                 title: movie.title,
             });
+            // Agregando imagen al observador
+            if (intersectionObserverIsSupported) registerImage(container);
         });
         // Removiendo loading screen
         const genericSectionUpdate = document.querySelector('#genericList');
@@ -225,12 +238,14 @@ const trendingMovies = async () => {
         if (status !== 200) throw new Error(`Error en la petición GET. Código HTTP: ${status}`);
         const movies = data.results;
         movies.forEach((movie) => {
-            addImageContainer({
+            const container = addImageContainer({
                 nodeContainer: genericSection,
                 id: movie.id,
                 posterPath: movie.poster_path,
                 title: movie.title,
             });
+            // Agregando imagen al observador
+            if (intersectionObserverIsSupported) registerImage(container);
         });
         // Removiendo loading screen
         const genericSectionUpdate = document.querySelector('#genericList');
@@ -298,12 +313,14 @@ const relatedMoviesById = async (id) => {
         if (status !== 200) throw new Error(`Error en la petición GET. Código HTTP: ${status}`);
         const movies = data.results;
         movies.forEach((movie) => {
-            addImageContainer({
+            const container = addImageContainer({
                 nodeContainer: relatedMoviesContainer,
                 id: movie.id,
                 posterPath: movie.poster_path,
                 title: movie.title,
             });
+            // Agregando imagen al observador
+            if (intersectionObserverIsSupported) registerImage(container);
         });
         // Removiendo loading screen
         const genericSectionUpdate = document.querySelector('.relatedMovies-scrollContainer');

@@ -93,6 +93,7 @@ button {
 }
 
 img {
+    width: 100%;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -122,6 +123,7 @@ footer {
 
 .movie-img {
     border-radius: 8px;
+    height: 100%;
 }
 
 .categoriesPreview-list,
@@ -213,15 +215,8 @@ footer {
 .trendingPreview-movieList .movie-container {
     display: inline-block;
     margin-right: 8px;
-}
-
-.trendingPreview-movieList .movie-container .movie-img {
-    height: 225px;
-    min-height: 225px;
-    max-height: 225px;
     width: 150px;
-    min-width: 150px;
-    max-width: 150px;
+    height: 225px;
 }
 
 
@@ -343,11 +338,8 @@ footer {
 .genericList-container .movie-container {
     display: inline-block;
     width: 47.5%;
-}
-
-.genericList-container .movie-img {
-    height: 273.59px;
-    width: 100%;
+    min-height: 268px;
+    margin-bottom: 8px;
 }
 
 
