@@ -125,10 +125,11 @@ function removeLoadindScreenContainer(nodeContainer) {
     }
 }
 
-function createButtonLoadMore(nodeContainer) {
+function createButtonLoadMore(nodeContainer, idButton) {
     const btnLoadMore = document.createElement('button');
     btnLoadMore.innerText = 'Cargar más';
     btnLoadMore.classList.add('loadMore-btn');
+    btnLoadMore.id = idButton;
     nodeContainer.appendChild(btnLoadMore);
     return btnLoadMore;
 }
@@ -210,20 +211,23 @@ const moviesByCategory = async (id, nextCollection = false, page = 1) => {
         const genericSectionUpdate = document.querySelector('#genericList');
         removeLoadindScreenContainer(genericSectionUpdate);
         // Creando botón de cargar más de forma recursiva
-        const btnLoadMoreMoviesByCategory = createButtonLoadMore(genericSectionUpdate);
+        const btnLoadMoreMoviesByCategory = createButtonLoadMore(
+            genericSectionUpdate,
+            'loadmore-btn-MoviesByCategory',
+        );
         btnLoadMoreMoviesByCategory.addEventListener('click', () => {
             btnLoadMoreMoviesByCategory.remove();
             moviesByCategory(id, true, dinPage);
         });
 
         // Creando el Infinite Scrolling
-        window.addEventListener('scroll', () => {
-            const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-            const scrollDiff = scrollHeight - (scrollTop + clientHeight);
-            if (scrollDiff <= 30) {
-                moviesByCategory(id, true, dinPage);
-            }
-        });
+        // window.addEventListener('scroll', () => {
+        //     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+        //     const scrollDiff = scrollHeight - (scrollTop + clientHeight);
+        //     if (scrollDiff <= 30) {
+        //         moviesByCategory(id, true, dinPage);
+        //     }
+        // });
     } catch (error) {
         requestError(error);
     }
@@ -255,20 +259,23 @@ const searchMoviesByText = async (query, nextCollection = false, page = 1) => {
         const genericSectionUpdate = document.querySelector('#genericList');
         removeLoadindScreenContainer(genericSectionUpdate);
         // Creando botón de cargar más de forma recursiva
-        const btnLoadMoreSearchMoviesByText = createButtonLoadMore(genericSectionUpdate);
+        const btnLoadMoreSearchMoviesByText = createButtonLoadMore(
+            genericSectionUpdate,
+            'loadmore-btn-SearchMoviesByText',
+        );
         btnLoadMoreSearchMoviesByText.addEventListener('click', () => {
             btnLoadMoreSearchMoviesByText.remove();
             searchMoviesByText(query, true, dinPage);
         });
 
         // Creando el Infinite Scrolling
-        window.addEventListener('scroll', () => {
-            const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-            const scrollDiff = scrollHeight - (scrollTop + clientHeight);
-            if (scrollDiff <= 30) {
-                searchMoviesByText(query, true, dinPage);
-            }
-        });
+        // window.addEventListener('scroll', () => {
+        //     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+        //     const scrollDiff = scrollHeight - (scrollTop + clientHeight);
+        //     if (scrollDiff <= 30) {
+        //         searchMoviesByText(query, true, dinPage);
+        //     }
+        // });
     } catch (error) {
         requestError(error);
     }
@@ -299,20 +306,23 @@ const trendingMovies = async (nextCollection = false, page = 1) => {
         const genericSectionUpdate = document.querySelector('#genericList');
         removeLoadindScreenContainer(genericSectionUpdate);
         // Creando botón de cargar más de forma recursiva
-        const btnLoadMoreTrendingMovies = createButtonLoadMore(genericSectionUpdate);
+        const btnLoadMoreTrendingMovies = createButtonLoadMore(
+            genericSectionUpdate,
+            'loadmore-btn-TrendingMovies',
+        );
         btnLoadMoreTrendingMovies.addEventListener('click', () => {
             btnLoadMoreTrendingMovies.remove();
             trendingMovies(true, dinPage);
         });
 
         // Creando el Infinite Scrolling
-        window.addEventListener('scroll', () => {
-            const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-            const scrollDiff = scrollHeight - (scrollTop + clientHeight);
-            if (scrollDiff <= 30) {
-                trendingMovies(true, dinPage);
-            }
-        });
+        // window.addEventListener('scroll', () => {
+        //     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+        //     const scrollDiff = scrollHeight - (scrollTop + clientHeight);
+        //     if (scrollDiff <= 30) {
+        //         trendingMovies(true, dinPage);
+        //     }
+        // });
     } catch (error) {
         requestError(error);
     }
