@@ -475,3 +475,14 @@ footer {
         opacity: 1;
     }
 }
+
+/* Botón cargar más */
+
+.loadMore-btn {
+    border-radius: 8px;
+    height: 56px;
+    width: 80%;
+    margin: 12px auto;
+    font-size: 20px;
+    font-weight: 400;
+}

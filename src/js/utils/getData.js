@@ -125,6 +125,14 @@ function removeLoadindScreenContainer(nodeContainer) {
     }
 }
 
+function createButtonLoadMore(nodeContainer) {
+    const btnLoadMore = document.createElement('button');
+    btnLoadMore.innerText = 'Cargar más';
+    btnLoadMore.classList.add('loadMore-btn');
+    nodeContainer.appendChild(btnLoadMore);
+    return btnLoadMore;
+}
+
 const trendingMoviesPreview = async () => {
     try {
         // Agregando loading screen
@@ -176,13 +184,16 @@ const categoriesMoviesPreview = async () => {
     }
 };
 
-const moviesByCategory = async (id) => {
+const moviesByCategory = async (id, nextCollection = false, page = 1) => {
     try {
+        const dinPage = nextCollection ? page + 1 : page;
         // Agregando loading screen
         addLoadindScreenImageContainer(genericSection, 6);
         // Importando datos
         // with_genres también lo podemos enviar como params desde axios en esta instancia
-        const { status, data } = await api.get(`${URL_MOVIES_BY_CATEG_RES}?with_genres=${id}`);
+        const { status, data } = await api.get(`${URL_MOVIES_BY_CATEG_RES}?with_genres=${id}`, {
+            params: { page: dinPage },
+        });
         if (status !== 200) throw new Error(`Error en la petición GET. Código HTTP: ${status}`);
         const movies = data.results;
         movies.forEach((movie) => {
@@ -198,19 +209,26 @@ const moviesByCategory = async (id) => {
         // Removiendo loading screen
         const genericSectionUpdate = document.querySelector('#genericList');
         removeLoadindScreenContainer(genericSectionUpdate);
+        // Creando botón de cargar más de forma recursiva
+        const btnLoadMoreMoviesByCategory = createButtonLoadMore(genericSectionUpdate);
+        btnLoadMoreMoviesByCategory.addEventListener('click', () => {
+            btnLoadMoreMoviesByCategory.remove();
+            moviesByCategory(id, true, dinPage);
+        });
     } catch (error) {
         requestError(error);
     }
 };
 
-const searchMoviesByText = async (query) => {
+const searchMoviesByText = async (query, nextCollection = false, page = 1) => {
     try {
+        const dinPage = nextCollection ? page + 1 : page;
         // Agregando loading screen
         addLoadindScreenImageContainer(genericSection, 6);
         // Importando datos
         // Aqui hemos pasado a query como parámetro en axios
         const { status, data } = await api.get(URL_MOVIES_SEARCH_RES, {
-            params: { query },
+            params: { query, page: dinPage },
         });
         if (status !== 200) throw new Error(`Error en la petición GET. Código HTTP: ${status}`);
         const movies = data.results;
@@ -227,17 +245,26 @@ const searchMoviesByText = async (query) => {
         // Removiendo loading screen
         const genericSectionUpdate = document.querySelector('#genericList');
         removeLoadindScreenContainer(genericSectionUpdate);
+        // Creando botón de cargar más de forma recursiva
+        const btnLoadMoreSearchMoviesByText = createButtonLoadMore(genericSectionUpdate);
+        btnLoadMoreSearchMoviesByText.addEventListener('click', () => {
+            btnLoadMoreSearchMoviesByText.remove();
+            searchMoviesByText(query, true, dinPage);
+        });
     } catch (error) {
         requestError(error);
     }
 };
 
-const trendingMovies = async () => {
+const trendingMovies = async (nextCollection = false, page = 1) => {
     try {
+        const dinPage = nextCollection ? page + 1 : page;
         // Agregando loading screen
         addLoadindScreenImageContainer(genericSection, 6);
         // Importando datos
-        const { status, data } = await api.get(URL_TRENDING_RES('movie', 'day'));
+        const { status, data } = await api.get(URL_TRENDING_RES('movie', 'day'), {
+            params: { page: dinPage },
+        });
         if (status !== 200) throw new Error(`Error en la petición GET. Código HTTP: ${status}`);
         const movies = data.results;
         movies.forEach((movie) => {
@@ -253,6 +280,12 @@ const trendingMovies = async () => {
         // Removiendo loading screen
         const genericSectionUpdate = document.querySelector('#genericList');
         removeLoadindScreenContainer(genericSectionUpdate);
+        // Creando botón de cargar más de forma recursiva
+        const btnLoadMoreTrendingMovies = createButtonLoadMore(genericSectionUpdate);
+        btnLoadMoreTrendingMovies.addEventListener('click', () => {
+            btnLoadMoreTrendingMovies.remove();
+            trendingMovies(true, dinPage);
+        });
     } catch (error) {
         requestError(error);
     }
