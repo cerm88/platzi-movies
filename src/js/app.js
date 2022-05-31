@@ -4,7 +4,6 @@ import * as getNode from './utils/getNode.js';
 window.addEventListener(
     'DOMContentLoaded',
     () => {
-        // todo vaciar todo el contenedor principal
         navigator();
         // Agregando un estado de carga inical
         window.history.pushState({ loadUrl: window.location.href }, null, '');
