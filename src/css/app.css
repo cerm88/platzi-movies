@@ -494,21 +494,28 @@ footer {
 
 .btn-like {
     position: absolute;
-    height: 18px;
-    bottom: 6px;
-    right: 9px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 500;
+    width: 24px;
+    height: 24px;
+    top: 6px;
+    right: 6px;
+    border-radius: 50%;
     background-color: var(--purple-light-1);
-    color: var(--purple-dark-1);
-    border: 1px solid var(--purple-dark-1) ;
+    border: 1px solid var(--purple-dark-1);
+    padding: 0;
+    margin: 0;
+}
+
+.btn-like::before {
+    content: '🤍';
 }
 
 .btn-like--like {
     background-color: var(--purple-dark-1);
-    color: var(--purple-light-1);
     border: 1px solid var(--purple-light-1);
+}
+
+.btn-like--like::before {
+    content: '💜';
 }
 
 .btn-like:hover {
