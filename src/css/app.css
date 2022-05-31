@@ -4,20 +4,20 @@
 }
 
 :root {
-    --purple-light-1: #FBFAFB;
-    --purple-light-2: #EEEAF2;
-    --purple-medium-1: #AA83C8;
-    --purple-medium-2: #8B48BF;
-    --purple-medium-3: #5C218A;
-    --purple-dark-1: #3E0F64;
-    --purple-dark-2: #2A0646;
+    --purple-light-1: #fbfafb;
+    --purple-light-2: #eeeaf2;
+    --purple-medium-1: #aa83c8;
+    --purple-medium-2: #8b48bf;
+    --purple-medium-3: #5c218a;
+    --purple-dark-1: #3e0f64;
+    --purple-dark-2: #2a0646;
 
-    --yellow: #EECC75;
-    --green: #CAD297;
-    --aqua: #B7EAC5;
-    --lightBlue: #A2EEE5;
-    --darkBlue: #8EA2EA;
-    --red: #F09D9D;
+    --yellow: #eecc75;
+    --green: #cad297;
+    --aqua: #b7eac5;
+    --lightBlue: #a2eee5;
+    --darkBlue: #8ea2ea;
+    --red: #f09d9d;
 
     --font-family-titles: 'Dosis', sans-serif;
     --font-family-text: 'Red Hat Display', sans-serif;
@@ -102,23 +102,27 @@ img {
 /* Shared */
 .header-container,
 .trendingPreview-header,
-.categoriesPreview-container {
+.categoriesPreview-container,
+.liked-header {
     padding: 0 24px;
 }
 
 .trendingPreview-container,
 .categoriesPreview-container,
+.liked-container,
 footer {
     margin-top: 48px;
 }
 
 .trendingPreview-header,
-.categoriesPreview-title {
+.categoriesPreview-title,
+.liked-header {
     margin-bottom: 24px;
 }
 
 .movie-container {
     cursor: pointer;
+    position: relative;
 }
 
 .movie-img {
@@ -134,7 +138,6 @@ footer {
     position: relative;
     flex-wrap: wrap;
 }
-
 
 /* Header */
 .header-container {
@@ -191,7 +194,8 @@ footer {
 }
 
 /* Trending */
-.trendingPreview-header {
+.trendingPreview-header,
+.liked-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -203,7 +207,8 @@ footer {
     width: 72px;
 }
 
-.trendingPreview-movieList {
+.trendingPreview-movieList,
+.liked-movieList {
     overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
@@ -212,13 +217,13 @@ footer {
     padding-bottom: 16px;
 }
 
-.trendingPreview-movieList .movie-container {
+.trendingPreview-movieList .movie-container,
+.liked-movieList .movie-container {
     display: inline-block;
     margin-right: 8px;
     width: 150px;
     height: 225px;
 }
-
 
 /* Categories */
 .category-container {
@@ -324,7 +329,6 @@ footer {
     --idColor: var(--darkBlue);
 }
 
-
 /* Generic List (search, trending & category) */
 .genericList-container {
     display: flex;
@@ -342,7 +346,6 @@ footer {
     margin-bottom: 8px;
 }
 
-
 /* Movie Detail */
 .movieDetail-container {
     width: 100%;
@@ -355,7 +358,7 @@ footer {
     background-color: var(--purple-light-1);
 }
 
-.movieDetail-header{
+.movieDetail-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -418,7 +421,6 @@ footer {
     max-height: 187.5px;
 }
 
-
 /* Footer */
 footer {
     background-color: var(--purple-medium-3);
@@ -430,12 +432,10 @@ footer {
     align-items: center;
 }
 
-
 /* Navigation */
 .inactive {
     display: none;
 }
-
 
 /* Loading Screens */
 
@@ -447,12 +447,14 @@ footer {
     0% {
         background-color: hsl(200, 20%, 70%);
     }
+
     100% {
         background-color: hsl(200, 20%, 95%);
     }
 }
 
-.skeleton-text, .skeleton-desc  {
+.skeleton-text,
+.skeleton-desc {
     width: 100%;
     height: 16px;
     margin: 8px;
@@ -471,6 +473,7 @@ footer {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -485,4 +488,33 @@ footer {
     margin: 12px auto;
     font-size: 20px;
     font-weight: 400;
+}
+
+/* Botón de me gusta */
+
+.btn-like {
+    position: absolute;
+    height: 18px;
+    bottom: 6px;
+    right: 9px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    background-color: var(--purple-light-1);
+    color: var(--purple-dark-1);
+    border: 1px solid var(--purple-dark-1) ;
+}
+
+.btn-like--like {
+    background-color: var(--purple-dark-1);
+    color: var(--purple-light-1);
+    border: 1px solid var(--purple-light-1);
+}
+
+.btn-like:hover {
+    border: 1px solid var(--darkBlue);
+}
+
+.btn-like:active {
+    transform: scale(1.1);
 }

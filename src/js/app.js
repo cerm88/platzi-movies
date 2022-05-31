@@ -61,12 +61,14 @@ const moviesNode = [
 
 moviesNode.forEach((node) => {
     node.addEventListener('click', (e) => {
-        // const target = e.target;
         const { target } = e;
         if (target && target.nodeName === 'IMG') {
             const movieId = target.dataset.movieid;
             const movieName = target.dataset.moviename.toLowerCase();
             window.location.hash = `#movie=${movieId}-${movieName}`;
+        }
+        if (target && target.nodeName === 'BUTTON') {
+            target.classList.toggle('btn-like--like');
         }
     });
 });

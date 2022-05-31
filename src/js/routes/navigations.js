@@ -29,6 +29,7 @@ const homePage = () => {
     getNode.searchForm.classList.remove('inactive');
     getNode.trendingPreviewSection.classList.remove('inactive');
     getNode.categoriesPreviewSection.classList.remove('inactive');
+    getNode.likeSection.classList.remove('inactive');
     getNode.genericSection.classList.add('inactive');
     getNode.movieDetailSection.classList.add('inactive');
     getNode.searchFormInput.value = '';
@@ -53,6 +54,7 @@ const trendsPage = () => {
     getNode.categoriesPreviewSection.classList.add('inactive');
     getNode.genericSection.classList.remove('inactive');
     getNode.movieDetailSection.classList.add('inactive');
+    getNode.likeSection.classList.add('inactive');
     // Limpiando contenido
     getNode.headerCategoryTitle.textContent = 'Tendencias';
     getNode.genericSection.innerHTML = '';
@@ -83,6 +85,7 @@ const searchPage = () => {
     getNode.categoriesPreviewSection.classList.add('inactive');
     getNode.genericSection.classList.remove('inactive');
     getNode.movieDetailSection.classList.add('inactive');
+    getNode.likeSection.classList.add('inactive');
     // Limpiando contenido
     getNode.genericSection.innerHTML = '';
     // Obteniendo los datos a renderizar
@@ -113,6 +116,7 @@ const movieDetailsPage = () => {
     getNode.categoriesPreviewSection.classList.add('inactive');
     getNode.genericSection.classList.add('inactive');
     getNode.movieDetailSection.classList.remove('inactive');
+    getNode.likeSection.classList.add('inactive');
     // Limpiando contenido
     getNode.headerSection.style.background = 'url("")';
     getNode.movieDetailTitle.innerText = '';
@@ -140,6 +144,7 @@ const categoriesPage = () => {
     getNode.categoriesPreviewSection.classList.add('inactive');
     getNode.genericSection.classList.remove('inactive');
     getNode.movieDetailSection.classList.add('inactive');
+    getNode.likeSection.classList.add('inactive');
     // Limpiando contenido
     getNode.headerCategoryTitle.innerText = '';
     getNode.genericSection.innerHTML = '';

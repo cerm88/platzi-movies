@@ -45,8 +45,12 @@ function requestError(error) {
 function addImageContainer({ nodeContainer, id, posterPath, title }) {
     const movieContainer = document.createElement('div');
     const movieImage = document.createElement('img');
+    const buttonLike = document.createElement('button');
+    const textButton = document.createTextNode('Like');
     movieContainer.classList.add('movie-container');
     movieImage.classList.add('movie-img');
+    buttonLike.classList.add('btn-like');
+    buttonLike.appendChild(textButton);
     const src = posterPath
         ? `${URL_IMG_BASE}${posterPath}`
         : `https://via.placeholder.com/300x450/5c218a/ffffff?text=${title}`;
@@ -60,6 +64,7 @@ function addImageContainer({ nodeContainer, id, posterPath, title }) {
     movieImage.setAttribute('data-movieid', id);
     movieImage.setAttribute('data-moviename', title);
     movieContainer.appendChild(movieImage);
+    movieContainer.appendChild(buttonLike);
     nodeContainer.appendChild(movieContainer);
     return movieContainer;
 }

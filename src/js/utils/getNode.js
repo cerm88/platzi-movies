@@ -4,6 +4,7 @@ export const trendingPreviewSection = document.querySelector('#trendingPreview')
 export const categoriesPreviewSection = document.querySelector('#categoriesPreview');
 export const genericSection = document.querySelector('#genericList');
 export const movieDetailSection = document.querySelector('#movieDetail');
+export const likeSection = document.querySelector('#liked');
 
 // Lists & Containers
 export const searchForm = document.querySelector('#searchForm');
