@@ -177,6 +177,7 @@ const categoriesMoviesPreview = async () => {
 };
 
 const moviesByCategory = async (id, page = 1) => {
+    const dataUtil = {};
     try {
         // Agregando loading screen
         addLoadindScreenImageContainer(genericSection, 6);
@@ -200,12 +201,15 @@ const moviesByCategory = async (id, page = 1) => {
         // Removiendo loading screen
         const genericSectionUpdate = document.querySelector('#genericList');
         removeLoadindScreenContainer(genericSectionUpdate);
+        dataUtil.total_pages = data.total_pages;
     } catch (error) {
         requestError(error);
     }
+    return dataUtil;
 };
 
 const searchMoviesByText = async (query, page = 1) => {
+    const dataUtil = {};
     try {
         // Agregando loading screen
         addLoadindScreenImageContainer(genericSection, 6);
@@ -229,12 +233,15 @@ const searchMoviesByText = async (query, page = 1) => {
         // Removiendo loading screen
         const genericSectionUpdate = document.querySelector('#genericList');
         removeLoadindScreenContainer(genericSectionUpdate);
+        dataUtil.total_pages = data.total_pages;
     } catch (error) {
         requestError(error);
     }
+    return dataUtil;
 };
 
 const trendingMovies = async (page = 1) => {
+    const dataUtil = {};
     try {
         // Agregando loading screen
         addLoadindScreenImageContainer(genericSection, 6);
@@ -257,9 +264,11 @@ const trendingMovies = async (page = 1) => {
         // Removiendo loading screen
         const genericSectionUpdate = document.querySelector('#genericList');
         removeLoadindScreenContainer(genericSectionUpdate);
+        dataUtil.total_pages = data.total_pages;
     } catch (error) {
         requestError(error);
     }
+    return dataUtil;
 };
 
 const movieById = async (id) => {

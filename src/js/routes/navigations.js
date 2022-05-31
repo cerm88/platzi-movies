@@ -5,6 +5,11 @@ import smoothscroll from '../utils/smoothscroll.js';
 let page = 1;
 let infiniteScroll;
 
+const removeInfiniteScroll = () => {
+    window.removeEventListener('scroll', infiniteScroll, { passive: false });
+    infiniteScroll = undefined;
+};
+
 const scrollIsOnThreshold = () => {
     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
     const scrollDiff = scrollHeight - (scrollTop + clientHeight);
@@ -52,10 +57,16 @@ const trendsPage = () => {
     getNode.headerCategoryTitle.textContent = 'Tendencias';
     getNode.genericSection.innerHTML = '';
     // Obteniendo los datos a renderizar
-    getData.trendingMovies();
+    getData.trendingMovies().then((data) => {
+        if (data.total_pages === 1) removeInfiniteScroll();
+    });
     // Scroll infinito
     infiniteScroll = () => {
-        if (scrollIsOnThreshold()) getData.trendingMovies(page);
+        if (scrollIsOnThreshold()) {
+            getData.trendingMovies(page).then((data) => {
+                if (page >= data.total_pages) removeInfiniteScroll();
+            });
+        }
     };
 };
 
@@ -77,10 +88,16 @@ const searchPage = () => {
     // Obteniendo los datos a renderizar
     const [, slug] = window.location.hash.split('=');
     const searchText = decodeURI(slug);
-    getData.searchMoviesByText(searchText);
+    getData.searchMoviesByText(searchText).then((data) => {
+        if (data.total_pages === 1) removeInfiniteScroll();
+    });
     // Scroll infinito
     infiniteScroll = () => {
-        if (scrollIsOnThreshold()) getData.searchMoviesByText(searchText, page);
+        if (scrollIsOnThreshold()) {
+            getData.searchMoviesByText(searchText, page).then((data) => {
+                if (page >= data.total_pages) removeInfiniteScroll();
+            });
+        }
     };
 };
 
@@ -132,10 +149,16 @@ const categoriesPage = () => {
     const categoryNameCapit = decodeURI(categoryName).replace(/\b\w/g, (l) => l.toUpperCase());
     const categoryText = document.createTextNode(categoryNameCapit);
     getNode.headerCategoryTitle.appendChild(categoryText);
-    getData.moviesByCategory(categoryId);
+    getData.moviesByCategory(categoryId).then((data) => {
+        if (data.total_pages === 1) removeInfiniteScroll();
+    });
     // Scroll infinito
     infiniteScroll = () => {
-        if (scrollIsOnThreshold()) getData.moviesByCategory(categoryId, page);
+        if (scrollIsOnThreshold()) {
+            getData.moviesByCategory(categoryId, page).then((data) => {
+                if (page >= data.total_pages) removeInfiniteScroll();
+            });
+        }
     };
 };
 
@@ -151,10 +174,9 @@ const pages = [
 ];
 
 const navigator = () => {
-    // Reiniciamos la el almacenador infiniteScroll
+    // Reiniciamos el almacenador infiniteScroll y el evento
     if (infiniteScroll) {
-        window.removeEventListener('scroll', infiniteScroll, { passive: false });
-        infiniteScroll = undefined;
+        removeInfiniteScroll();
     }
 
     const { hash } = window.location;
