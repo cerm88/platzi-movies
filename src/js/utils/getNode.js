@@ -12,6 +12,7 @@ export const trendingMoviesPreviewList = document.querySelector('.trendingPrevie
 export const categoriesPreviewList = document.querySelector('.categoriesPreview-list');
 export const movieDetailCategoriesList = document.querySelector('#movieDetail .categories-list');
 export const relatedMoviesContainer = document.querySelector('.relatedMovies-scrollContainer');
+export const likeMovieList = document.querySelector('.liked-movieList');
 
 // Elements
 export const headerTitle = document.querySelector('.header-title');

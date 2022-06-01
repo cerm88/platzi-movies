@@ -1,5 +1,6 @@
 import navigator from './routes/navigations.js';
 import * as getNode from './utils/getNode.js';
+import { likeMovies } from './utils/likedData.js';
 
 window.addEventListener(
     'DOMContentLoaded',
@@ -57,18 +58,31 @@ const moviesNode = [
     getNode.trendingMoviesPreviewList,
     getNode.genericSection,
     getNode.relatedMoviesContainer,
+    getNode.likeMovieList,
 ];
 
 moviesNode.forEach((node) => {
     node.addEventListener('click', (e) => {
         const { target } = e;
+        //  Evento de click descripción de la película
         if (target && target.nodeName === 'IMG') {
             const movieId = target.dataset.movieid;
             const movieName = target.dataset.moviename.toLowerCase();
             window.location.hash = `#movie=${movieId}-${movieName}`;
         }
+        //  Evento de click like de la película
         if (target && target.nodeName === 'BUTTON') {
             target.classList.toggle('btn-like--like');
+            const nodeImg = target.previousSibling;
+            const { movieid, moviename } = nodeImg.dataset;
+            const dataMovie = {
+                movieid,
+                src: nodeImg.src,
+                alt: nodeImg.alt,
+                moviename,
+            };
+            const isLiked = target.classList.contains('btn-like--like');
+            likeMovies(dataMovie, isLiked);
         }
     });
 });

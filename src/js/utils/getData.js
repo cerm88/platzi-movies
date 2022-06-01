@@ -1,6 +1,6 @@
 import env from '../ENV/env.js';
+import intersectionObserverIsSupported from '../constants/consts.js';
 import {
-    errorNode,
     trendingMoviesPreviewList,
     categoriesPreviewList,
     genericSection,
@@ -11,11 +11,11 @@ import {
     headerSection,
     relatedMoviesContainer,
 } from './getNode.js';
+import requestError from './requestError.js';
 import registerImage from './lazyLoading.js';
 
 const { API_KEY } = env;
 const URL_IMG_BASE = 'https://image.tmdb.org/t/p/w300';
-const intersectionObserverIsSupported = 'IntersectionObserver' in window;
 
 const api = axios.create({
     baseURL: 'https://api.themoviedb.org/3/',
@@ -36,12 +36,6 @@ const URL_MOVIES_SEARCH_RES = 'search/movie';
 const URL_MOVIE_DETAILS_RES = (movieId) => `movie/${movieId}`;
 const URL_MOVIES_RECOMM_RES = (movieId) => `movie/${movieId}/recommendations`;
 
-function requestError(error) {
-    const msgError = `Error: ${error.message}`;
-    const nodeTextError = document.createTextNode(msgError);
-    errorNode.appendChild(nodeTextError);
-}
-
 function addImageContainer({ nodeContainer, id, posterPath, title }) {
     const movieContainer = document.createElement('div');
     const movieImage = document.createElement('img');
@@ -49,6 +43,7 @@ function addImageContainer({ nodeContainer, id, posterPath, title }) {
     movieContainer.classList.add('movie-container');
     movieImage.classList.add('movie-img');
     buttonLike.classList.add('btn-like');
+    // TODO: Sí el id está en el local storage, colocar el modificador de like
     const src = posterPath
         ? `${URL_IMG_BASE}${posterPath}`
         : `https://via.placeholder.com/300x450/5c218a/ffffff?text=${title}`;

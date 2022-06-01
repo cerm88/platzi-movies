@@ -1,6 +1,7 @@
 import getData from '../utils/getData.js';
 import * as getNode from '../utils/getNode.js';
 import smoothscroll from '../utils/smoothscroll.js';
+import { likedMoviesTofavou } from '../utils/likedData.js';
 
 let page = 1;
 let infiniteScroll;
@@ -36,9 +37,11 @@ const homePage = () => {
     // Limpiando contenido
     getNode.trendingMoviesPreviewList.innerHTML = '';
     getNode.categoriesPreviewList.innerHTML = '';
+    getNode.likeMovieList.innerHTML = '';
     // Obteniendo los datos a renderizar
     getData.trendingMoviesPreview();
     getData.categoriesMoviesPreview();
+    likedMoviesTofavou();
 };
 
 const trendsPage = () => {
