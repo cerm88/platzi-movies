@@ -1,5 +1,4 @@
 import env from '../ENV/env.js';
-import intersectionObserverIsSupported from '../constants/consts.js';
 import {
     trendingMoviesPreviewList,
     categoriesPreviewList,
@@ -16,6 +15,7 @@ import registerImage from './lazyLoading.js';
 
 const { API_KEY } = env;
 const URL_IMG_BASE = 'https://image.tmdb.org/t/p/w300';
+const intersectionObserverIsSupported = 'IntersectionObserver' in window;
 
 const api = axios.create({
     baseURL: 'https://api.themoviedb.org/3/',
@@ -43,7 +43,15 @@ function addImageContainer({ nodeContainer, id, posterPath, title }) {
     movieContainer.classList.add('movie-container');
     movieImage.classList.add('movie-img');
     buttonLike.classList.add('btn-like');
-    // TODO: Sí el id está en el local storage, colocar el modificador de like
+    // Actualizar like si está en el storage
+    const dataMoviesParsed = JSON.parse(window.localStorage.getItem('datamovies')) || [];
+    const isLikedMovie = dataMoviesParsed
+        ? dataMoviesParsed.find((movie) => movie.movieid === id.toString())
+        : false;
+    if (isLikedMovie) {
+        buttonLike.classList.add('btn-like--like');
+    }
+    // Obteniendo url para la imagen
     const src = posterPath
         ? `${URL_IMG_BASE}${posterPath}`
         : `https://via.placeholder.com/300x450/5c218a/ffffff?text=${title}`;

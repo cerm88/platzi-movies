@@ -1,7 +1,9 @@
-import intersectionObserverIsSupported from '../constants/consts.js';
 import requestError from './requestError.js';
-import { likeMovieList } from './getNode.js';
+import { likeMovieList, trendingMoviesPreviewList } from './getNode.js';
 import registerImage from './lazyLoading.js';
+
+const intersectionObserverIsSupported = 'IntersectionObserver' in window;
+const dataMoviesParsed = JSON.parse(window.localStorage.getItem('datamovies')) || [];
 
 // Segunda forma de agregar una imagen con contenedor
 // Pero esta vez con una estructura httml y con el botón like pulsado
@@ -30,19 +32,19 @@ function addImageContainerLiked({ nodeContainer, movieId, movieURL, movieAlt, mo
 export const likeMovies = (dataMovie, isLiked = true) => {
     try {
         const { movieid: idEntry, src, alt, moviename } = dataMovie;
-        const dataMoviesParsed = JSON.parse(window.localStorage.getItem('datamovies')) || [];
         const indexLikedMovie = dataMoviesParsed
-            ? dataMoviesParsed.map((movie) => movie.movieid).indexOf(idEntry)
+            ? dataMoviesParsed.findIndex((movie) => movie.movieid === idEntry)
             : -1;
+        const isHomeSection = window.location.hash === '';
 
-        if (isLiked) {
-            // No existe la movie en el storage
-            if (indexLikedMovie === -1) {
-                // Guardando movie en el storage
-                dataMoviesParsed.push(dataMovie);
-                const dataMoviesJson = JSON.stringify(dataMoviesParsed);
-                window.localStorage.setItem('datamovies', dataMoviesJson);
-                // Guardando movie en la sección de favoritos
+        // Like y no existe la movie en el storage
+        if (isLiked && indexLikedMovie === -1) {
+            // Guardando movie en el storage
+            dataMoviesParsed.push(dataMovie);
+            const dataMoviesJson = JSON.stringify(dataMoviesParsed);
+            window.localStorage.setItem('datamovies', dataMoviesJson);
+            // Guardando movie en la sección de favoritos
+            if (isHomeSection) {
                 const container = addImageContainerLiked({
                     nodeContainer: likeMovieList,
                     movieId: idEntry,
@@ -55,23 +57,29 @@ export const likeMovies = (dataMovie, isLiked = true) => {
             }
         }
 
-        if (!isLiked) {
-            // No existe la movie en el storage
-            if (indexLikedMovie !== -1) {
-                // Eliminando movie del storage
-                dataMoviesParsed.splice(indexLikedMovie, 1);
-                const dataMoviesJson = JSON.stringify(dataMoviesParsed);
-                window.localStorage.removeItem('datamovies');
-                const totalMovies = dataMoviesParsed.length;
-                if (totalMovies !== 0) window.localStorage.setItem('datamovies', dataMoviesJson);
-                // Eliminando movie del DOM
-                const movieList = likeMovieList.childNodes;
-                movieList.forEach((movieContainer) => {
+        // No like y existe la movie en el storage
+        if (!isLiked && indexLikedMovie !== -1) {
+            // Eliminando movie del storage
+            dataMoviesParsed.splice(indexLikedMovie, 1);
+            const dataMoviesJson = JSON.stringify(dataMoviesParsed);
+            window.localStorage.removeItem('datamovies');
+            const totalMovies = dataMoviesParsed.length;
+            if (totalMovies !== 0) window.localStorage.setItem('datamovies', dataMoviesJson);
+            // Eliminando movie del DOM
+            if (isHomeSection) {
+                const movieListLiked = likeMovieList.childNodes;
+                movieListLiked.forEach((movieContainer) => {
                     const nodeImg = movieContainer.firstChild;
                     const { movieid: idSearch } = nodeImg.dataset;
                     if (idSearch === idEntry) movieContainer.remove();
                 });
-                // TODO: Actualizar like del contenedor de origen
+                const movieListTrends = trendingMoviesPreviewList.childNodes;
+                movieListTrends.forEach((movieContainer) => {
+                    const nodeImg = movieContainer.firstChild;
+                    const nodeButton = movieContainer.lastChild;
+                    const { movieid: idSearch } = nodeImg.dataset;
+                    if (idSearch === idEntry) nodeButton.classList.remove('btn-like--like');
+                });
             }
         }
     } catch (error) {
@@ -81,7 +89,6 @@ export const likeMovies = (dataMovie, isLiked = true) => {
 
 export const likedMoviesTofavou = () => {
     try {
-        const dataMoviesParsed = JSON.parse(window.localStorage.getItem('datamovies')) || [];
         dataMoviesParsed.forEach((dataMovie) => {
             const { movieid: idEntry, src, alt, moviename } = dataMovie;
             const container = addImageContainerLiked({
