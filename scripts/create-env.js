@@ -7,4 +7,4 @@ const ENV = [
     `API_TOKEN=${process.env.API_TOKEN}\n`,
 ].join('\n');
 
-fs.writeFileSync('./.env', ENV);
+fs.writeFileSync('./.ENV', ENV);

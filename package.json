@@ -2,10 +2,12 @@
     "name": "platzi-movies",
     "version": "1.0.0",
     "description": "",
-    "main": "./src/index.js",
+    "main": "./src/js/app.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "node ./scripts/create-env.js"
+        "build": "node ./scripts/create-env.js && webpack --config webpack.config.js",
+        "dev": "webpack --config webpack.config.dev.js",
+        "dev-server": "webpack serve --config webpack.config.dev.js"
     },
     "keywords": [
         "movies",
@@ -15,10 +17,27 @@
     "author": "@cerm88",
     "license": "MIT",
     "devDependencies": {
+        "@babel/core": "^7.18.2",
+        "@babel/plugin-transform-runtime": "^7.18.2",
+        "@babel/preset-env": "^7.18.2",
+        "@babel/runtime": "^7.18.3",
+        "babel-loader": "^8.2.5",
+        "css-loader": "^6.7.1",
+        "css-minimizer-webpack-plugin": "^4.0.0",
+        "dotenv-webpack": "^7.1.0",
         "eslint": "^8.14.0",
         "eslint-config-airbnb-base": "^15.0.0",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-import": "^2.26.0",
-        "prettier": "^2.6.2"
+        "html-webpack-plugin": "^5.5.0",
+        "mini-css-extract-plugin": "^2.6.0",
+        "postcss": "^8.4.14",
+        "postcss-loader": "^7.0.0",
+        "postcss-preset-env": "^7.7.0",
+        "prettier": "^2.6.2",
+        "terser-webpack-plugin": "^5.3.3",
+        "webpack": "^5.72.1",
+        "webpack-cli": "^4.9.2",
+        "webpack-dev-server": "^4.9.1"
     }
 }

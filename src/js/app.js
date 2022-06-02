@@ -1,3 +1,5 @@
+import '../css/app.css';
+
 import navigator from './routes/navigations.js';
 import * as getNode from './utils/getNode.js';
 import { likeMovies } from './utils/likedData.js';
