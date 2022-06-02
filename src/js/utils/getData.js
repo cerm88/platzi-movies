@@ -1,4 +1,3 @@
-import env from '../ENV/env.js';
 import {
     trendingMoviesPreviewList,
     categoriesPreviewList,
@@ -13,7 +12,7 @@ import {
 import requestError from './requestError.js';
 import registerImage from './lazyLoading.js';
 
-const { API_KEY } = env;
+const { API_KEY } = process.env;
 const URL_IMG_BASE = 'https://image.tmdb.org/t/p/w300';
 const intersectionObserverIsSupported = 'IntersectionObserver' in window;
 
