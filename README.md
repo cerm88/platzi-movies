@@ -1,10 +1,10 @@
 # **Proyecto Platzi Movies**
 
-Se basa en mostrar una una interfaz que se comunique con una API pública para consultar películas y mostrarlas en el frontend de manera dinámica.
+Se basa en mostrar una una interfaz que se comunique con una API pública para consultar películas y mostrarlas en el frontend de manera dinámica. La aplicación sólo está disponible para dispositivos Mobile y tablet hasta 600px de ancho.
 
 ## **Estado actual**
 
-Proyecto de prueba.
+Proyecto actualmente producción. Url del proyecto: [platzi-movie.netlify.app](https://platzi-movie.netlify.app/).
 
 ## **Maquetación del proyecto**
 
