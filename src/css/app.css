@@ -3,6 +3,40 @@
     box-sizing: border-box;
 }
 
+.trendingPreview-movieList::-webkit-scrollbar,
+.liked-movieList::-webkit-scrollbar,
+.relatedMovies-scrollContainer::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.trendingPreview-movieList::-webkit-scrollbar-thumb,
+.liked-movieList::-webkit-scrollbar-thumb,
+.relatedMovies-scrollContainer::-webkit-scrollbar-thumb {
+    background: var(--purple-medium-1);
+    border-radius: 4px;
+}
+
+.trendingPreview-movieList::-webkit-scrollbar-thumb:hover,
+.liked-movieList::-webkit-scrollbar-thumb:hover,
+.relatedMovies-scrollContainer::-webkit-scrollbar-thumb:hover {
+    background: var(--purple-medium-2);
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.trendingPreview-movieList::-webkit-scrollbar-thumb:active,
+.liked-movieList::-webkit-scrollbar-thumb:active,
+.relatedMovies-scrollContainer::-webkit-scrollbar-thumb:active {
+    background-color: var(--purple-medium-3);
+}
+
+.trendingPreview-movieList::-webkit-scrollbar-track,
+.liked-movieList::-webkit-scrollbar-track,
+.relatedMovies-scrollContainer::-webkit-scrollbar-track {
+    background: var(--purple-light-2);
+    border-radius: 4px;
+}
+
 :root {
     --purple-light-1: #fbfafb;
     --purple-light-2: #eeeaf2;
@@ -37,8 +71,11 @@ body {
     font-family: var(--font-family-text);
     font-weight: var(--font-weight-text1);
     font-size: 16px;
-    margin: 4px 0 0 0;
+    margin: 4px auto;
+    /* margin: 4px 0 0 0; */
     padding: 0;
+    max-width: 600px;
+    /* border: 1px solid var(--purple-dark-2) */
 }
 
 h1,
@@ -191,6 +228,7 @@ footer {
     position: fixed;
     top: 0;
     width: 100%;
+    max-width: 600px;
 }
 
 /* Trending */
@@ -349,13 +387,21 @@ footer {
 /* Movie Detail */
 .movieDetail-container {
     width: 100%;
+    max-width: 600px;
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
-    padding: 32px 24px;
+    padding: 32px 0;
     margin-top: 403px;
     z-index: 1;
     position: absolute;
     background-color: var(--purple-light-1);
+    overflow-x: hidden;
+}
+
+.movieDetail-header,
+.movieDetail-description,
+.categories-list {
+    padding: 0 24px;
 }
 
 .movieDetail-header {
@@ -366,14 +412,10 @@ footer {
 }
 
 .movieDetail-title {
-    /* display: inline-block; */
     width: 80%;
-    /* margin: 0 0 16px 0; */
-    /* padding: 0; */
 }
 
 .movieDetail-score {
-    /* display: inline-block; */
     text-align: right;
     width: 18%;
     font-weight: var(--font-weight-title2);
@@ -391,11 +433,12 @@ footer {
 
 .relatedMovies-container {
     margin-top: 24px;
-    height: 216px;
+    height: 232px;
 }
 
 .relatedMovies-title {
     margin-bottom: 16px;
+    padding: 0 24px;
 }
 
 .relatedMovies-scrollContainer {
@@ -403,8 +446,8 @@ footer {
     overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
-    width: calc(100vw - 24px);
-    padding-bottom: 16px;
+    max-width: 600px;
+    padding-left: 24px;
 }
 
 .relatedMovies-scrollContainer .movie-container {
