@@ -1,6 +1,7 @@
 {
     "root": true,
     "env": {
+        "node": true,
         "browser": true,
         "es2021": true
     },
@@ -20,6 +21,7 @@
                 "ignorePackages": true
             }
         ],
+        "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
         "indent": ["error", 4],
         "max-len": [
             "warn",
