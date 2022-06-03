@@ -295,7 +295,7 @@ const movieById = async (id) => {
             ),
             url(${movieImgUrl})
         `;
-        headerSection.style.backgroundPosition = 'center';
+        headerSection.style.backgroundPosition = 'top';
         headerSection.style.backgroundRepeat = 'no-repeat';
         headerSection.style.backgroundSize = 'cover';
         // Detalles de la película
