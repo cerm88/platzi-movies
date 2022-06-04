@@ -7,9 +7,9 @@ const dotenv = new Dotenv();
 const miniCssExtractPlugin = (filename) => new MiniCssExtractPlugin({ filename });
 
 const htmlWebpackPlugin = new HtmlWebpackPlugin({
-    inject: true,
-    template: './index.html',
     filename: 'index.html',
+    template: './index.html',
+    inject: true,
 });
 
 module.exports = {

@@ -6,14 +6,14 @@ const server = require('./webpack/server.js');
 module.exports = {
     entry: './src/js/app.js',
     output: {
-        path: path.resolve(__dirname, './dist'),
+        path: path.resolve(__dirname, 'dist'),
         filename: 'app.js',
         clean: true,
     },
     mode: 'development',
     module: {
-        rules: [loaders.JSLoader, loaders.CSSLoader('./dist/assets/')],
+        rules: [loaders.JSLoader, loaders.CSSLoader('dist/assets')],
     },
     plugins: [plugins.Dotenv, plugins.MiniCssExtractPlugin('app.css'), plugins.HtmlWebpackPlugin],
-    devServer: server.devServer('./dist/'),
+    devServer: server.devServer('dist'),
 };

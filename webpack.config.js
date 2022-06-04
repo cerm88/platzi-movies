@@ -8,13 +8,13 @@ const plugins = require('./webpack/plugins.js');
 module.exports = {
     entry: './src/js/app.js',
     output: {
-        path: path.resolve(__dirname, './build'),
-        filename: 'app.[contenthash].js',
+        path: path.resolve(__dirname, 'build'),
+        filename: '[name].[contenthash].js',
         clean: true,
     },
     mode: 'production',
     module: {
-        rules: [loaders.JSLoader, loaders.CSSLoader('./build/assets/')],
+        rules: [loaders.JSLoader, loaders.CSSLoader('build/assets')],
     },
     optimization: {
         minimize: true,
@@ -22,7 +22,7 @@ module.exports = {
     },
     plugins: [
         plugins.Dotenv,
-        plugins.MiniCssExtractPlugin('app.[contenthash].css'),
+        plugins.MiniCssExtractPlugin('[name].[contenthash].css'),
         plugins.HtmlWebpackPlugin,
     ],
 };

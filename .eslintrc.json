@@ -14,13 +14,7 @@
         "axios": "readonly"
     },
     "rules": {
-        "import/extensions": [
-            "error",
-            "always",
-            {
-                "ignorePackages": true
-            }
-        ],
+        "import/extensions": ["error", "always", { "ignorePackages": true }],
         "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
         "indent": ["error", 4],
         "max-len": [

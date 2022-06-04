@@ -4,8 +4,8 @@
     "description": "",
     "main": "./src/js/app.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "node ./scripts/create-env.js && webpack --config webpack.config.js",
+        "create-env": "node ./scripts/create-env.js",
+        "build": "webpack --config webpack.config.js",
         "dev": "webpack --config webpack.config.dev.js",
         "dev-server": "webpack serve --config webpack.config.dev.js"
     },
